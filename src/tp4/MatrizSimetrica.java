@@ -13,11 +13,11 @@ public class MatrizSimetrica {
 		}
 	}
 
-	public boolean getVector(int fila, int columna) {
+	public boolean getValor(int fila, int columna) {
 		return vector[(int)(fila*ordenMatriz+columna-(Math.pow(fila, 2)+3*fila+2)/2)];
 	}
 
-	public void setVector(boolean valor, int fila, int columna) {
+	public void setValor(boolean valor, int fila, int columna) {
 		vector[(int)(fila*ordenMatriz+columna-(Math.pow(fila, 2)+3*fila+2)/2)] = true; 
 	}
 

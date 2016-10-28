@@ -18,7 +18,7 @@ public class GenerarGrafoAleatorioDadoPorcentajeDeAdyacencia {
 		Arrays.sort(vector);
 		int dondeCorta= (int)porcentaje*vector.length;
 		for(int i=0; i<dondeCorta; i++){
-			matriz.setVector(true, vector[i].getFila(), vector[i].getColumna());
+			matriz.setValor(true, vector[i].getFila(), vector[i].getColumna());
 		}
 	}
 }
