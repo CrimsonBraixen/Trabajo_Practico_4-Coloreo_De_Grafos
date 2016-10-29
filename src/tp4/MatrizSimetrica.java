@@ -14,6 +14,14 @@ public class MatrizSimetrica {
 			vector[i] = false;
 		}
 	}
+	
+	public void ponerTodoTrue(){
+		for(int i=0; i<vector.length; i++){
+			for(int j=i+1; j<vector.length; j++){
+				vector[i] = true;
+			}
+		}
+	}
 
 	public boolean getValor(int fila, int columna) {
 		return vector[(int)(fila*ordenMatriz+columna-(Math.pow(fila, 2)+3*fila+2)/2)];
