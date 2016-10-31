@@ -3,13 +3,11 @@ package tp4;
 public class MatrizSimetrica {
 
 	private boolean []vector;
-	private Integer []vectorPintado;
 	private int ordenMatriz;
 	
 	public MatrizSimetrica(int grado){
 		ordenMatriz = grado;
 		vector = new boolean[(grado*(grado-1))/2];
-		vectorPintado = new Integer[(grado*(grado-1))/2];
 		for(int i=0; i<vector.length; i++){
 			vector[i] = false;
 		}
@@ -37,9 +35,5 @@ public class MatrizSimetrica {
 
 	public void setOrdenMatriz(int ordenMatriz) {
 		this.ordenMatriz = ordenMatriz;
-	}
-	
-	public void setVectorPintado(Integer color, int fila, int columna) {
-		vectorPintado[(int)(fila*ordenMatriz+columna-(Math.pow(fila, 2)+3*fila+2)/2)] = color; 
 	}
 }
