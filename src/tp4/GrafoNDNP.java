@@ -1,6 +1,7 @@
 package tp4;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,32 +14,44 @@ public class GrafoNDNP {
 		matriz = new MatrizSimetrica(cantidadDeNodosEntrada);
 		nodosColoreados = new HashMap<Integer, Integer>();
 		nodos = new ArrayList<Nodo>();
-	}
-	
-	public void coloreoSecuencialAleatorio(){
-		int color=1;
-		nodosColoreados.put(0, color);
-		for(int i=0; i<matriz.getOrdenMatriz()-1; i++){
-			for(int j=i+1; j<matriz.getOrdenMatriz(); j++){
-				color = 1;
-				while(!sePuedeColorear(i, j)){
-					color++;
-				}
-				nodosColoreados.put((int)(i * matriz.getOrdenMatriz() + j - (Math.pow(i, 2) + 3 * i + 2) / 2), color);
-			}
+		for(int i=0;i<cantidadDeNodosEntrada;i++){
+			nodos.add(new Nodo(i));
 		}
 	}
+	
 
-	private boolean sePuedeColorear(int i, int j) {
-		return false;
+	public void coloreoSecuencialAleatorio(){
+		int color=1;
+		nodosColoreados.put(nodos.get(0).getNumero(), color);
+		for(int i=1;i<nodos.size()-1;i++){
+				color = 1;
+				while(!sePuedeColorear(i,color)){
+					color++;
+				}
+				nodosColoreados.put(i, color);
+			}
+	}
+	
+
+	private boolean sePuedeColorear(int i, int color) {
+
+		for(int j=0; i<nodos.size();j++){
+			if(matriz.getValor(i, j)){
+				if(nodosColoreados.containsKey(j)&&nodosColoreados.get(j)==color){
+					return false;
+				}
+			}
+		}
+		return true;
+		
 	}
 
-/*
+
 	public void colorearSecuencial() {
 		Collections.shuffle(nodos);
-		colorearSecuencialAleatorio();
+		coloreoSecuencialAleatorio();
 	}
-*/
+
 	public void setValor(boolean valor, int fila, int columna) {
 		matriz.setValor(valor, fila, columna);
 	}
