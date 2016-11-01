@@ -1,14 +1,24 @@
 package tp4;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class GrafoNDNP {
 	MatrizSimetrica matriz;
 	ArrayList<Nodo> nodos;
 	private Map<Integer, Integer> nodosColoreados;
+	private double porcentajeDeAdyacenciaEntrada;
+	private int gradoMaximoEntrada;
+	private int gradoMinimoEntrada;
+	private int cantidadDeAristasEntrada;
+	private int cantidadDeNodosEntrada;
 	
 	public GrafoNDNP(int cantidadDeNodosEntrada){
 		matriz = new MatrizSimetrica(cantidadDeNodosEntrada);
@@ -19,37 +29,94 @@ public class GrafoNDNP {
 		}
 	}
 	
+	public GrafoNDNP(String pathIn) throws IOException {
+		Scanner scanner = new Scanner(new File(pathIn));
+		cantidadDeNodosEntrada = scanner.nextInt();
+		matriz = new MatrizSimetrica(cantidadDeNodosEntrada);
+		nodos = new ArrayList<Nodo>();
+		nodosColoreados = new HashMap<Integer, Integer>();
+		cantidadDeAristasEntrada = scanner.nextInt();
+		porcentajeDeAdyacenciaEntrada = scanner.nextDouble();
+		gradoMaximoEntrada = scanner.nextInt();
+		gradoMinimoEntrada = scanner.nextInt();
+		for(int i=0; i<cantidadDeAristasEntrada; i++){
+			matriz.setValor(true, scanner.nextInt(), scanner.nextInt());
+		}
+		for(int i=0;i<cantidadDeNodosEntrada;i++){
+			nodos.add(new Nodo(i));
+		}
+		scanner.close();
+	}
 
-	public void coloreoSecuencialAleatorio(){
+	public void colorear(){
 		int color=1;
-		nodosColoreados.put(nodos.get(0).getNumero(), color);
-		for(int i=1;i<nodos.size()-1;i++){
+		//nodosColoreados.put(nodos.get(0).getNumero(), color);
+		for(int i=0;i<nodos.size();i++){
 				color = 1;
 				while(!sePuedeColorear(i,color)){
 					color++;
 				}
-				nodosColoreados.put(i, color);
+				nodosColoreados.put(nodos.get(i).getNumero(), color);
 			}
 	}
 	
 
 	private boolean sePuedeColorear(int i, int color) {
-
-		for(int j=0; i<nodos.size();j++){
-			if(matriz.getValor(i, j)){
-				if(nodosColoreados.containsKey(j)&&nodosColoreados.get(j)==color){
-					return false;
+		for(int j=0; j<nodos.size();j++){
+			if(nodos.get(i).getNumero() != nodos.get(j).getNumero()){
+				if(nodos.get(i).getNumero()<nodos.get(j).getNumero()){
+					if(matriz.getValor(nodos.get(i).getNumero(), nodos.get(j).getNumero())){
+						if(nodosColoreados.containsKey(nodos.get(j).getNumero()) && (nodosColoreados.get(nodos.get(j).getNumero())==color)){
+							return false;
+						}
+					}
+				}
+				else if(nodos.get(i).getNumero()>nodos.get(j).getNumero()){
+					if(matriz.getValor(nodos.get(j).getNumero(), nodos.get(i).getNumero())){
+						if(nodosColoreados.containsKey(nodos.get(j).getNumero()) && (nodosColoreados.get(nodos.get(j).getNumero())==color)){
+							return false;
+						}
+					}
 				}
 			}
 		}
 		return true;
-		
 	}
-
-
+	
+	public void calcularGrados(){
+		for(int i=0; i<matriz.getOrdenMatriz()-1; i++){
+			for(int j=i+1; j<matriz.getOrdenMatriz(); j++){
+				if(matriz.getValor(i, j)){
+					nodos.get(i).sumarGrado();
+					nodos.get(j).sumarGrado();
+				}
+			}
+		}
+	}
+	
+	public void colorearWelshPowell() {
+		calcularGrados();
+		ordenarDescendentemente();
+		colorear();
+	}
+	
+	public void colorearMatula() {
+		calcularGrados();
+		ordenarAscendentemente();
+		colorear();
+	}
+	
 	public void colorearSecuencial() {
 		Collections.shuffle(nodos);
-		coloreoSecuencialAleatorio();
+		colorear();
+	}
+
+	private void ordenarDescendentemente() {
+		Collections.sort(nodos, Collections.reverseOrder());
+	}
+	
+	private void ordenarAscendentemente() {
+		Collections.sort(nodos);
 	}
 
 	public void setValor(boolean valor, int fila, int columna) {
@@ -76,4 +143,30 @@ public class GrafoNDNP {
 		return nodosColoreados.get(i);
 	}
 
+	public void aArchivo(String path) throws IOException{
+		PrintWriter pw = new PrintWriter(new FileWriter(new File(path)));
+		pw.print(nodos.size()+" ");
+		pw.print(nodosColoreados.size()+" ");
+		pw.print(getCantidadDeAristas()+" ");
+		pw.print(porcentajeDeAdyacenciaEntrada+" ");
+		pw.print(gradoMaximoEntrada+" ");
+		pw.println(gradoMinimoEntrada);
+		for(int i=0; i < nodosColoreados.size(); i++){
+			pw.println(i+" "+nodosColoreados.get(i));
+		}
+		pw.close();
+	}
+	
+	public int getCantidadDeAristas() {
+		/*int contador=0;
+		for(int i=0; i<matriz.getOrdenMatriz(); i++){
+			for(int j=i+1; j<matriz.getOrdenMatriz(); j++){
+				if(matriz.getValor(i, j)){
+					contador++;
+				}
+			}
+		}
+		return contador;*/
+		return cantidadDeAristasEntrada;
+	}
 }

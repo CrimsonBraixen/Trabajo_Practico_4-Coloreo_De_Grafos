@@ -3,10 +3,11 @@ package tp4;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Locale;
 import java.util.Scanner;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ProgramaProbador {
 	
@@ -44,7 +45,7 @@ public class ProgramaProbador {
 	}
 
 	private void leerArchivoSalida(String pathOut) throws FileNotFoundException {
-		Scanner scanner = new Scanner(new File(pathOut));
+		Scanner scanner = new Scanner(new File(pathOut)).useLocale(Locale.US);;
 		cantidadDeNodosSalida = scanner.nextInt();
 		cantidadDeColores = scanner.nextInt();
 		cantidadDeAristasSalida = scanner.nextInt();
