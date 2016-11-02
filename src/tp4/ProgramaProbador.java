@@ -28,7 +28,7 @@ public class ProgramaProbador {
 	}
 
 	private void leerArchivoEntrada(String pathIn) throws IOException {
-		Scanner scanner = new Scanner(new File(pathIn));
+		Scanner scanner = new Scanner(new File(pathIn)).useLocale(Locale.US);
 		cantidadDeNodosEntrada = scanner.nextInt();
 		grafo = new GrafoNDNP(cantidadDeNodosEntrada);
 		cantidadDeAristasEntrada = scanner.nextInt();
@@ -42,7 +42,7 @@ public class ProgramaProbador {
 	}
 
 	private void leerArchivoSalida(String pathOut) throws FileNotFoundException {
-		Scanner scanner = new Scanner(new File(pathOut)).useLocale(Locale.US);;
+		Scanner scanner = new Scanner(new File(pathOut)).useLocale(Locale.US);
 		cantidadDeNodosSalida = scanner.nextInt();
 		cantidadDeColores = scanner.nextInt();
 		cantidadDeAristasSalida = scanner.nextInt();

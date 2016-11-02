@@ -16,8 +16,8 @@ public class GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia {
 	MatrizSimetrica matriz;
 	
 	public GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia(double porcentajeDeAdyacencia, int cantidadDeNodos) {
-		grado = (int)porcentajeDeAdyacencia*(cantidadDeNodos-1);
-		cantidadDeNodos = cantidadDeNodos;
+		grado = (int)(porcentajeDeAdyacencia*(cantidadDeNodos-1));
+		this.cantidadDeNodos = cantidadDeNodos;
 		matriz = new MatrizSimetrica(cantidadDeNodos);
 		cantidadDeAristasEntrada=0;
 		porcentajeDeAdyacenciaEntrada = porcentajeDeAdyacencia;
@@ -80,9 +80,9 @@ public class GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia {
 	}
 	
 	public static void main(String []args) throws IOException{
-		GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia grafo50 = new GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia(50, 1000);
-		GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia grafo75 = new GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia(75, 1000);
-		grafo50.generarArchivo("C:\\Users\\CrimsonBraixen\\Documents\\GitKraken---Workspace\\Trabajo_Practico_4-Coloreo_De_Grafos\\Pruebas\\in\\grafoAleatorio50.in");
-		grafo75.generarArchivo("C:\\Users\\CrimsonBraixen\\Documents\\GitKraken---Workspace\\Trabajo_Practico_4-Coloreo_De_Grafos\\Pruebas\\in\\grafoAleatorio75.in");
-		}
+		GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia grafo50 = new GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia(0.5, 1000);
+		GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia grafo75 = new GenerarGrafoRegularDadoNYPorcentajeDeAdyacencia(0.75, 1000);
+		grafo50.generarArchivo("C:\\Users\\Martin Artime\\Documents\\GitKraken---Workspace\\Trabajo_Practico_4-Coloreo_De_Grafos\\Pruebas\\in\\grafoRegular50.in");
+		grafo75.generarArchivo("C:\\Users\\Martin Artime\\Documents\\GitKraken---Workspace\\Trabajo_Practico_4-Coloreo_De_Grafos\\Pruebas\\in\\grafoRegular75.in");
+	}
 }

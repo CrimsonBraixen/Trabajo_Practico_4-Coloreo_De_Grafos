@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class GrafoNDNP {
 	MatrizSimetrica matriz;
 	ArrayList<Nodo> nodos;
 	private Map<Integer, Integer> nodosColoreados;
+	private int cantidadDeColores;
 	private double porcentajeDeAdyacenciaEntrada;
 	private int gradoMaximoEntrada;
 	private int gradoMinimoEntrada;
@@ -24,13 +26,14 @@ public class GrafoNDNP {
 		matriz = new MatrizSimetrica(cantidadDeNodosEntrada);
 		nodosColoreados = new HashMap<Integer, Integer>();
 		nodos = new ArrayList<Nodo>();
+		cantidadDeColores=1;
 		for(int i=0;i<cantidadDeNodosEntrada;i++){
 			nodos.add(new Nodo(i));
 		}
 	}
 	
 	public GrafoNDNP(String pathIn) throws IOException {
-		Scanner scanner = new Scanner(new File(pathIn));
+		Scanner scanner = new Scanner(new File(pathIn)).useLocale(Locale.US);
 		cantidadDeNodosEntrada = scanner.nextInt();
 		matriz = new MatrizSimetrica(cantidadDeNodosEntrada);
 		nodos = new ArrayList<Nodo>();
@@ -55,6 +58,9 @@ public class GrafoNDNP {
 				color = 1;
 				while(!sePuedeColorear(i,color)){
 					color++;
+					if(color > cantidadDeColores){
+						cantidadDeColores = color;
+					}
 				}
 				nodosColoreados.put(nodos.get(i).getNumero(), color);
 			}
@@ -94,21 +100,24 @@ public class GrafoNDNP {
 		}
 	}
 	
-	public void colorearWelshPowell() {
+	public int colorearWelshPowell() {
 		calcularGrados();
 		ordenarDescendentemente();
 		colorear();
+		return cantidadDeColores;
 	}
 	
-	public void colorearMatula() {
+	public int colorearMatula() {
 		calcularGrados();
 		ordenarAscendentemente();
 		colorear();
+		return cantidadDeColores;
 	}
 	
-	public void colorearSecuencial() {
+	public int colorearSecuencial() {
 		Collections.shuffle(nodos);
 		colorear();
+		return cantidadDeColores;
 	}
 
 	private void ordenarDescendentemente() {
@@ -146,7 +155,7 @@ public class GrafoNDNP {
 	public void aArchivo(String path) throws IOException{
 		PrintWriter pw = new PrintWriter(new FileWriter(new File(path)));
 		pw.print(nodos.size()+" ");
-		pw.print(nodosColoreados.size()+" ");
+		pw.print(cantidadDeColores+" ");
 		pw.print(getCantidadDeAristas()+" ");
 		pw.print(porcentajeDeAdyacenciaEntrada+" ");
 		pw.print(gradoMaximoEntrada+" ");
