@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Scanner;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 public class ProgramaProbador {
 	
 	private GrafoNDNP grafo;
