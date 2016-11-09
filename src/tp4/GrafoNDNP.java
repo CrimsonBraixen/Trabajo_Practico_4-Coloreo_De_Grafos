@@ -102,30 +102,48 @@ public class GrafoNDNP {
 	
 	public int colorearWelshPowell() {
 		calcularGrados();
-		ordenarDescendentemente();
+		Collections.shuffle(nodos);
+		ordenarEstablementeWelshPowell();
+		colorear();
+		return cantidadDeColores;
+	}
+
+	public int colorearMatula() {
+		calcularGrados();
+		Collections.shuffle(nodos);
+		ordenarEstablementeMatula();
 		colorear();
 		return cantidadDeColores;
 	}
 	
-	public int colorearMatula() {
-		calcularGrados();
-		ordenarAscendentemente();
-		colorear();
-		return cantidadDeColores;
+	private void ordenarEstablementeWelshPowell() {
+		for(int i=0; i<nodos.size()-1; i++){
+			for(int j=0; j<nodos.size()-i-1; j++){
+				if(nodos.get(j+1).compareTo(nodos.get(j)) > 0){
+					Nodo aux = nodos.get(j+1);
+					nodos.set(j+1, nodos.get(j));
+					nodos.set(j, aux);
+				}
+			}
+		}
+	}
+	
+	private void ordenarEstablementeMatula() {
+		for(int i=0; i<nodos.size()-1; i++){
+			for(int j=0; j<nodos.size()-i-1; j++){
+				if(nodos.get(j+1).compareTo(nodos.get(j)) < 0){
+					Nodo aux = nodos.get(j+1);
+					nodos.set(j+1, nodos.get(j));
+					nodos.set(j, aux);
+				}
+			}
+		}
 	}
 	
 	public int colorearSecuencial() {
 		Collections.shuffle(nodos);
 		colorear();
 		return cantidadDeColores;
-	}
-
-	private void ordenarDescendentemente() {
-		Collections.sort(nodos, Collections.reverseOrder());
-	}
-	
-	private void ordenarAscendentemente() {
-		Collections.sort(nodos);
 	}
 
 	public void setValor(boolean valor, int fila, int columna) {
@@ -167,15 +185,6 @@ public class GrafoNDNP {
 	}
 	
 	public int getCantidadDeAristas() {
-		/*int contador=0;
-		for(int i=0; i<matriz.getOrdenMatriz(); i++){
-			for(int j=i+1; j<matriz.getOrdenMatriz(); j++){
-				if(matriz.getValor(i, j)){
-					contador++;
-				}
-			}
-		}
-		return contador;*/
 		return cantidadDeAristasEntrada;
 	}
 }

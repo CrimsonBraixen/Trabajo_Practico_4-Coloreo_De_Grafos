@@ -14,6 +14,10 @@ public class Nodo implements Comparable<Nodo>{
 		this.numero = numero;
 	}
 
+	public int getColor() {
+		return color;
+	}
+
 	public void setColor(int color) {
 		this.color=color;
 	}
