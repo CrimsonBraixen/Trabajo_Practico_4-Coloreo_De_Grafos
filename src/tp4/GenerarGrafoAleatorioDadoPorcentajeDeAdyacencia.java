@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.sun.javafx.geom.transform.GeneralTransform3D;
 
 public class GenerarGrafoAleatorioDadoPorcentajeDeAdyacencia {
 
